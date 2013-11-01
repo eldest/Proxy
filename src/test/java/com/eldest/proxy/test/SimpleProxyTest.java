@@ -5,7 +5,7 @@ import org.junit.Test;
 import com.eldest.proxy.simple.Proxy;
 import com.eldest.proxy.simple.ProxyManager;
 import com.eldest.proxy.support.SimpleLogger;
-import com.eldest.proxy.test.support.TestBase;
+import com.eldest.proxy.support.TestBase;
 
 public class SimpleProxyTest extends TestBase {
 	private static final SimpleLogger log = new SimpleLogger(SimpleProxyTest.class);
@@ -21,36 +21,12 @@ public class SimpleProxyTest extends TestBase {
 	@Test
 	public void anotherSomeTest() throws Exception {
 		ProxyManager manager = new ProxyManager();
-		manager.configure(resources + "/" + "proxy.properties");
+		manager.configure(getResource("proxy.properties"));
 		Thread.sleep(10000);
 		manager.removeProxy("web");
 		log.debug("Step2");
 		Thread.sleep(10000);
 		log.debug("Done");
 	}
-	
-	
-	@Test
-	public void anotherSomeTest1() throws Exception {
-		String abc = "abc";
-		StringBuilder newString = new StringBuilder();
-		
-		for (int i = abc.length()-1; i >= 0; i--) {
-			newString.append(abc.charAt(i));
-		}
-		
-		log.debug(newString);
-	}
-	
-	@Test
-	public void anotherSomeTest2() throws Exception {
-		String abc = "abc";
-		StringBuilder newString = new StringBuilder();
-		
-		for (int i = abc.length()-1; i >= 0; i--) {
-			newString.append(abc.charAt(i));
-		}
-		
-		log.debug(newString);
-	}
+
 }

@@ -1,6 +1,0 @@
-<coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-   <dc:title>Simple test</dc:title>
-   <dc:creator>eldest</dc:creator>
-   <dc:description>It&apos;s just for test, nothing more</dc:description>
-   <dc:created>7.16.2011</dc:created>
-</coreProperties>
