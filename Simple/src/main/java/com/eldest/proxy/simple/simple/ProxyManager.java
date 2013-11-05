@@ -1,16 +1,12 @@
-package com.eldest.proxy.simple;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+package com.eldest.proxy.simple.simple;
 
 import com.eldest.proxy.support.SimpleLogger;
 
-public class ProxyManager implements Runnable {
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.*;
+
+public class ProxyManager {
 	private static final SimpleLogger log = new SimpleLogger(ProxyManager.class);
 	Map<String, Proxy> proxyList = new HashMap<String, Proxy>();
 	Map<Proxy, Thread> threadList = new HashMap<Proxy, Thread>();
@@ -44,7 +40,7 @@ public class ProxyManager implements Runnable {
 
 	public void configure(String fileName) {
 
-		String localport, remotehost, remoteport;
+		String localPort, remoteHost, remotePort;
 
 		// Read properties file.
 		Properties properties = new Properties();
@@ -62,37 +58,18 @@ public class ProxyManager implements Runnable {
 			}
 
 			for (String name : list) {
-				localport = properties.getProperty(name + "." + KEY_LOCAL_PORT);
-				remotehost = properties.getProperty(name + "." + KEY_REMOTE_HOST);
-				remoteport = properties.getProperty(name + "." + KEY_REMOTE_PORT);
+				localPort = properties.getProperty(name + "." + KEY_LOCAL_PORT);
+				remoteHost = properties.getProperty(name + "." + KEY_REMOTE_HOST);
+				remotePort = properties.getProperty(name + "." + KEY_REMOTE_PORT);
 
-				if (localport == null || remotehost == null || remoteport == null) {
-					continue;
-				} else {
-					Proxy proxy = new Proxy(localport, remotehost, remoteport);
+				if (localPort != null && remoteHost != null && remotePort != null) {
+					Proxy proxy = new Proxy(localPort, remoteHost, remotePort);
 					addProxy(name, proxy);
-					log.debug("Added Proxy with next parametrs: localport '%s', remotehost '%s', remoteport '%s'", localport, remotehost, remoteport);
+					log.debug("Added Proxy with next parameters: localPort '%s', remoteHost '%s', remotePort '%s'",
+                            localPort, remoteHost, remotePort);
 				}
 			}
 		}
-
-//		sleep();
 	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
-
-//	private void sleep() {
-//		while (active) {
-//			try {
-//				Thread.sleep(delay);
-//			} catch (InterruptedException e) {
-//				active = false;
-//			}
-//		}
-//	}
 
 }

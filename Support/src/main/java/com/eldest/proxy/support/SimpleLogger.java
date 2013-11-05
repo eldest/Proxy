@@ -62,8 +62,4 @@ public class SimpleLogger {
     public void warn(String message) {
         logger.warn(message);
     }
-
-    public void action(String message) {
-        logger.warn(message);
-    }
 }

@@ -1,6 +1,5 @@
 package com.eldest.proxy.my;
 
-import com.eldest.proxy.nio.ChangeRequest;
 import com.eldest.proxy.support.SimpleLogger;
 
 import java.io.IOException;
