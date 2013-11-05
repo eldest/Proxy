@@ -11,6 +11,7 @@ import java.util.*;
 
 public class NioThread implements Runnable {
     private static final SimpleLogger log = new SimpleLogger(NioThread.class);
+
     private static final int BUFFER_CAPACITY = 8192;
 
     private Selector selector;

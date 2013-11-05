@@ -1,5 +1,7 @@
 package com.eldest.proxy.nio;
 
+import com.eldest.proxy.support.SimpleLogger;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -8,15 +10,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.nio.channels.spi.SelectorProvider;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import com.eldest.proxy.support.SimpleLogger;
+import java.util.*;
 
 public class NioClient implements Runnable {
 	private static final SimpleLogger log = new SimpleLogger(NioClient.class);
@@ -56,11 +50,11 @@ public class NioClient implements Runnable {
 		this.rspHandlers.put(socket, handler);
 		
 		// And queue the data we want written
-		synchronized (this.pendingData) {
-			List<ByteBuffer> queue = (List<ByteBuffer>) this.pendingData.get(socket);
+		synchronized (pendingData) {
+			List<ByteBuffer> queue = pendingData.get(socket);
 			if (queue == null) {
 				queue = new ArrayList<ByteBuffer>();
-				this.pendingData.put(socket, queue);
+				pendingData.put(socket, queue);
 			}
 			queue.add(ByteBuffer.wrap(data));
 		}
@@ -73,7 +67,7 @@ public class NioClient implements Runnable {
 		while (true) {
 			try {
 				// Process any pending changes
-				synchronized (this.pendingChanges) {
+				synchronized (pendingChanges) {
 					Iterator<ChangeRequest> changes = this.pendingChanges.iterator();
 					while (changes.hasNext()) {
 						ChangeRequest change = (ChangeRequest) changes.next();
@@ -168,7 +162,7 @@ public class NioClient implements Runnable {
 	private void write(SelectionKey key) throws IOException {
 		SocketChannel socketChannel = (SocketChannel) key.channel();
 
-		synchronized (this.pendingData) {
+		synchronized (pendingData) {
 			List<?> queue = (List<?>) this.pendingData.get(socketChannel);
 
 			// Write until there's not more data ...
@@ -221,8 +215,8 @@ public class NioClient implements Runnable {
 		// selecting thread. As part of the registration we'll register
 		// an interest in connection events. These are raised when a channel
 		// is ready to complete connection establishment.
-		synchronized(this.pendingChanges) {
-			this.pendingChanges.add(new ChangeRequest(socketChannel, ChangeRequest.REGISTER, SelectionKey.OP_CONNECT));
+		synchronized(pendingChanges) {
+			pendingChanges.add(new ChangeRequest(socketChannel, ChangeRequest.REGISTER, SelectionKey.OP_CONNECT));
 		}
 		
 		return socketChannel;
